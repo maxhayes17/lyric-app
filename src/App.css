@@ -2,6 +2,9 @@
   text-align: center;
  
 }
+html, body {
+  background-color: #404040;
+}
 
 .App-logo {
   height: 40vmin;
@@ -38,6 +41,6 @@
   }
 }
 h1{
-  font-size: 80px;
+  font-size: 60px;
   color: #fff
 }
