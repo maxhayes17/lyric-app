@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  text-align: left;
+  margin-left: 10%;
  
 }
 html, body {
@@ -41,10 +42,15 @@ html, body {
   }
 }
 h1{
+  text-align: center;
+  margin-right: 10%;
   font-size: 60px;
   color: #fff
 }
 h2{
   font-size: 30px;
+  color: #fff
+}
+h3{
   color: #fff
 }
