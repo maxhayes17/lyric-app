@@ -31,9 +31,13 @@ class Playlist extends Component {
 
 class PlaylistCounter extends Component {
   render() {
+    let plCount = ""
+    if ((this.props.playlists.length) == 1) {plCount = "playlist"}
+    else {plCount = "playlists"}
+
     return (
       <div>
-        <h2>{this.props.playlists.length} playlists</h2>
+        <h2>{this.props.playlists.length} {plCount}</h2>
       </div>
     );
   }
@@ -63,6 +67,11 @@ class App extends Component {
     }, 1000);
   }
   render() {
+    let playlistToRender = this.state.serverData.user ? 
+    this.state.serverData.user.playlists.filter(playlist =>
+      playlist.name.toLowerCase().includes(
+        this.state.filterString.toLowerCase())
+    ) : []
     return (
       <div className="App">
         {this.state.serverData.user ? // ? = if true, run code, if else, run whatever's after :
@@ -71,11 +80,9 @@ class App extends Component {
 
           <Filter onTextChange={text => this.setState({filterString: text})}/>
 
-          <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
-          {this.state.serverData.user.playlists.filter(playlist =>
-              playlist.name.toLowerCase().includes(
-                this.state.filterString.toLowerCase())
-          ).map(playlists => 
+          <PlaylistCounter playlists={playlistToRender}/>
+
+          {playlistToRender.map(playlists => 
     
           <Playlist playlist={playlists}/>)} 
         </div> : <h1>Loading...</h1>
