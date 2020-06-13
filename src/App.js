@@ -17,14 +17,18 @@ class Playlist extends Component {
 }
 class Songs extends Component {
   render() {
-
     return (
       <div>
-          <h1 className="plName">{this.props.playlist.name}</h1>
+          <h1 className="plName">{this.props.playlist.name}</h1> 
           <ul>
             {this.props.playlist.songs.map(song =>
-              <li className="songList">{song.name}</li>
-              )}
+              <li className="songList">
+                {song.name}
+                <li className = "songList" 
+                  style={{display: "inline", fontWeight: "lighter", marginLeft: "10px"}}>
+                    {song.artists.toString().replace(",", ", ")}
+                </li>
+              </li>)}
           </ul>
       </div>
     );
@@ -98,6 +102,7 @@ class App extends Component {
           playlists[i].trackDatas = trackData.items
           .map(item => item.track)
           .map(trackData => ({
+            artists: trackData.artists.map(artist => artist.name),
             name: trackData.name,
             duration: trackData.duration_ms / 1000
           }))
@@ -108,6 +113,7 @@ class App extends Component {
   })
     .then(playlists => this.setState({
       playlists: playlists.map(item => {
+        console.log(item.trackDatas)
         return {
           name: item.name,
           imageUrl: item.images[0].url, 
@@ -128,7 +134,9 @@ class App extends Component {
         this.state.filterString.toLowerCase())
       let matchesSong = playlist.songs.find(song => song.name.toLowerCase()
       .includes(this.state.filterString.toLowerCase()))
-        return matchesPlaylist || matchesSong
+      let matchesArtists = playlist.songs.find(song => song.artists.toString().toLowerCase()
+      .includes(this.state.filterString.toLowerCase()))
+        return matchesPlaylist || matchesSong || matchesArtists
       }) 
       : []
     return (
