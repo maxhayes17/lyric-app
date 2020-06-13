@@ -1,8 +1,65 @@
 .App {
   text-align: left;
   margin-left: 10%;
+
  
 }
+.but{
+  background-color: black;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  font-size: 30px;
+  color: #fff;
+  padding: 20px;
+
+
+}
+.songsUI{
+  background-color: black;
+  width: 100%;
+  height: auto;
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+.plName{
+  color: #fff;
+  text-align: left;
+  margin-left: 10px;
+  font-size: 40px;
+}
+.songList{
+  text-align: left;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 10px;
+  list-style-type: none;
+}
+.ply{
+
+  margin-bottom: 20px;
+  margin-right: 20px;
+  width: 185px;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 0px;
+  background-color: black;
+}
+.playlist{
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.center{
+  text-align: center;
+  margin-right: 10%;
+  margin-top: 15%;
+}
+.image{
+  height: 180px;
+  width: 180px;
+  border-radius: 5px;
+}
+
 html, body {
   background-color: #404040;
 }
@@ -41,7 +98,7 @@ html, body {
     transform: rotate(360deg);
   }
 }
-h1{
+.title{
   text-align: center;
   margin-right: 10%;
   font-size: 60px;
@@ -52,5 +109,7 @@ h2{
   color: #fff
 }
 h3{
+  width: 180px;
+  text-align: center;
   color: #fff
 }
