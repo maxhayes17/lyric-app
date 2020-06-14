@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import queryString from 'query-string';
+import ReactDOM from 'react-dom'
 // 
 
 class Playlist extends Component {
   render() {
+    let embed = "https://open.spotify.com/embed/"
+    let playlistURI = this.props.playlist.uri.replace("spotify:", "").replace(":", "/")
+    let uriSrc = embed + playlistURI
     let playlist = this.props.playlist
     return (
         <div>
@@ -17,19 +21,19 @@ class Playlist extends Component {
 }
 class Songs extends Component {
   render() {
+    let embed = "https://open.spotify.com/embed/"
+    let playlistURI = this.props.playlist.uri.replace("spotify:", "").replace(":", "/")
+    let uriSrc = embed + playlistURI
+    console.log(uriSrc)
     return (
-      <div>
-          <h1 className="plName">{this.props.playlist.name}</h1> 
-          <ul>
-            {this.props.playlist.songs.map(song =>
-              <li className="songList">
-                {song.name} {song.artists.toString().replace(",", ", ")}
-                <li className = "songList" 
-                  style={{display: "inline", fontWeight: "lighter", marginLeft: "10px"}}>
-                    {song.artists.toString().replace(",", ", ")}
-                </li>
-              </li>)}
-          </ul>
+      <div id="songPlayer"> 
+        <iframe src={uriSrc} 
+        width="93%" height="300" frameborder="0" 
+        allowtransparency="false" allow="encrypted-media"
+        style={{
+          "border-radius": "5px",
+          marginBottom: "10px"
+        }}></iframe>
       </div>
     );
   }
@@ -155,7 +159,7 @@ class App extends Component {
           <Playlist playlist={playlists}/>
           </div>)}
           {playlistToRender.map(playlists =>
-          <div className="songsUI">
+          <div>
             <Songs playlist={playlists}/>
           </div>)}
           
