@@ -23,7 +23,7 @@ class Songs extends Component {
           <ul>
             {this.props.playlist.songs.map(song =>
               <li className="songList">
-                {song.name}
+                {song.name} {song.artists.toString().replace(",", ", ")}
                 <li className = "songList" 
                   style={{display: "inline", fontWeight: "lighter", marginLeft: "10px"}}>
                     {song.artists.toString().replace(",", ", ")}
@@ -53,7 +53,7 @@ class Filter extends Component {
   render() {
     return (
       <div>
-          <input type="text" placeholder="Search Playlists" onKeyUp={event => 
+          <input id="filter" type="text" placeholder="Search Playlists" onKeyUp={event => 
             this.props.onTextChange(event.target.value)}/>
       </div>
     );
@@ -114,12 +114,15 @@ class App extends Component {
     .then(playlists => this.setState({
       playlists: playlists.map(item => {
         console.log(item.trackDatas)
+        console.log(item.uri)
         return {
           name: item.name,
           imageUrl: item.images[0].url, 
-          songs: item.trackDatas
+          songs: item.trackDatas,
+          uri: item.uri
           
         }
+        
     })
     }))
 
