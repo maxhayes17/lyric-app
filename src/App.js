@@ -13,7 +13,7 @@ class Playlist extends Component {
     let playlist = this.props.playlist
     return (
         <div>
-          <input type="image" src={playlist.imageUrl} className="image"/>
+          <input type="image" src={playlist.imageUrl} className="image" id="playlistButton"/>
           <h3>{this.props.playlist.name}</h3>
         </div>
     );
@@ -28,7 +28,7 @@ class Songs extends Component {
     return (
       <div id="songPlayer"> 
         <iframe src={uriSrc} 
-        width="93%" height="300" frameborder="0" 
+        width="400px" height="200" frameborder="0" 
         allowtransparency="false" allow="encrypted-media"
         style={{
           "border-radius": "5px",
@@ -46,9 +46,19 @@ class PlaylistCounter extends Component {
     else {plCount = "playlists"}
 
     return (
-      <div>
+      <div style={{marginBottom:"0px"}}>
         <h2>{this.props.playlists.length} {plCount}</h2>
       </div>
+    );
+  }
+}
+class SpinningImage extends Component {
+  render() {
+    return (
+      <div className="App-logo">
+        <image src={this.props.playlist.imageUrl} />
+      </div>
+        
     );
   }
 }
@@ -146,22 +156,34 @@ class App extends Component {
         return matchesPlaylist || matchesSong || matchesArtists
       }) 
       : []
+      
     return (
       <div className="App">
         {this.state.user ? // ? = if true, run code, if else, run whatever's after :
         <div> 
-          <h1 className="title">lyricify</h1>
-          <Filter onTextChange={text => this.setState({filterString: text})}/>
-          <PlaylistCounter playlists={playlistToRender}/>
+          <div style={{}}>
+            <h1 className="title">your playlists</h1>
+          </div>
+          <div style={{}}>
+            <Filter onTextChange={text => this.setState({filterString: text})}/>
+            <PlaylistCounter playlists={playlistToRender}/>
+          </div>
+          <div style={{display:"flex"}}>
+          <div style={{width:"450px", display:"inline-block"}}>
+            {playlistToRender.map(playlists =>
+            <div className="ply">
+            <Playlist playlist={playlists}/>
+            </div>)}
+          </div>
+          <div style={{display:"inline-block"}}>
+          {playlistToRender.map(playlists =>
+            <div>
+              <Songs playlist={playlists}/>
+            </div>)}
+          </div>
+          </div>
 
-          {playlistToRender.map(playlists =>
-          <div className="ply">
-          <Playlist playlist={playlists}/>
-          </div>)}
-          {playlistToRender.map(playlists =>
-          <div>
-            <Songs playlist={playlists}/>
-          </div>)}
+
           
 
  
