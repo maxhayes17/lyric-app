@@ -66,17 +66,17 @@ class SpinningImage extends Component {
     return (
       <div style={{borderRadius: "50%",
       animation: "spin 6s linear infinite"}}>
-        <div style={{backgroundColor: "#404040", borderRadius:"50%", height: "90px", width:"90px", 
+        <div style={{backgroundColor: "#404040",borderRadius:"50%", height: "90px", width:"90px", 
         position: "absolute",
         margin: "-60px 0px 0px -60px",
         top: "50%", left: "50%",
-        borderStyle: "solid", borderColor:"#fff", borderWidth:"15px"}}></div>
+        borderStyle: "solid", borderColor:"#F5F5F5", borderWidth:"15px"}}></div>
         <img src={this.props.playlist.imageUrl}
-        //className="imageCircle" 
         width="400px" height="400px" 
         style={{borderRadius: "50%",
         position: "relative",
-        zIndex: "-1"
+        zIndex: "-1",
+        borderStyle: "solid", borderColor:"#383838"
         }}/>
 
       </div>
