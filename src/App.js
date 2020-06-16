@@ -2,20 +2,29 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import queryString from 'query-string';
-import ReactDOM from 'react-dom'
 // 
-
+let aSpin = "spin 6s linear infinite"
 class Playlist extends Component {
   render() {
     let embed = "https://open.spotify.com/embed/"
     let playlistURI = this.props.playlist.uri.replace("spotify:", "").replace(":", "/")
     let uriSrc = embed + playlistURI
+    console.log(this.props.playlist)
+
     let playlist = this.props.playlist
     return (
-        <div>
-          <input type="image" src={playlist.imageUrl} className="image" id="playlistButton"/>
-          <h3>{this.props.playlist.name}</h3>
+      <div style={{display: "flex", marginBottom: "20px"}}>
+        <div style={{display:"inline-block", paddingRight:"10px"}}>
+          <input type="image" src={playlist.imageUrl} className="image" id="playlistButton" 
+          onClick={()=> aSpin = "spin 0s linear infinite"}/>
         </div>
+        <div style={{display:"inline-block", paddingRight:"100px"}}>
+          <Songs playlist={this.props.playlist}/>
+        </div>
+        <div style={{display:"inline-block"}}>
+          <SpinningImage playlist={this.props.playlist}/>
+        </div>
+      </div>
     );
   }
 }
@@ -24,15 +33,14 @@ class Songs extends Component {
     let embed = "https://open.spotify.com/embed/"
     let playlistURI = this.props.playlist.uri.replace("spotify:", "").replace(":", "/")
     let uriSrc = embed + playlistURI
-    console.log(uriSrc)
     return (
       <div id="songPlayer"> 
         <iframe src={uriSrc} 
-        width="400px" height="200" frameborder="0" 
+        width="400px" height="530px" frameBorder="0" 
         allowtransparency="false" allow="encrypted-media"
         style={{
-          "border-radius": "5px",
-          marginBottom: "10px"
+          borderRadius: "5px",
+          marginBottom: "17px"
         }}></iframe>
       </div>
     );
@@ -46,7 +54,7 @@ class PlaylistCounter extends Component {
     else {plCount = "playlists"}
 
     return (
-      <div style={{marginBottom:"0px"}}>
+      <div style={{display:"inline-block", width:"185px"}}>
         <h2>{this.props.playlists.length} {plCount}</h2>
       </div>
     );
@@ -54,9 +62,23 @@ class PlaylistCounter extends Component {
 }
 class SpinningImage extends Component {
   render() {
+
     return (
-      <div className="App-logo">
-        <image src={this.props.playlist.imageUrl} />
+      <div style={{borderRadius: "50%",
+      animation: "spin 6s linear infinite"}}>
+        <div style={{backgroundColor: "#404040", borderRadius:"50%", height: "90px", width:"90px", 
+        position: "absolute",
+        margin: "-60px 0px 0px -60px",
+        top: "50%", left: "50%",
+        borderStyle: "solid", borderColor:"#fff", borderWidth:"15px"}}></div>
+        <img src={this.props.playlist.imageUrl}
+        //className="imageCircle" 
+        width="400px" height="400px" 
+        style={{borderRadius: "50%",
+        position: "relative",
+        zIndex: "-1"
+        }}/>
+
       </div>
         
     );
@@ -66,9 +88,10 @@ class SpinningImage extends Component {
 class Filter extends Component {
   render() {
     return (
-      <div>
+      <div style={{display:"inline-block", marginLeft:"15px"}}>
           <input id="filter" type="text" placeholder="Search Playlists" onKeyUp={event => 
-            this.props.onTextChange(event.target.value)}/>
+            this.props.onTextChange(event.target.value)} 
+            style={{height: "30px", paddingRight:"200px", fontSize:"15px"}}/>
       </div>
     );
   }
@@ -78,7 +101,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {serverData: {},
-    filterString: ""
+    filterString: "",
+    speed: 4
     }
   }
   componentDidMount() {
@@ -127,6 +151,7 @@ class App extends Component {
   })
     .then(playlists => this.setState({
       playlists: playlists.map(item => {
+        console.log(playlists)
         console.log(item.trackDatas)
         console.log(item.uri)
         return {
@@ -156,7 +181,7 @@ class App extends Component {
         return matchesPlaylist || matchesSong || matchesArtists
       }) 
       : []
-      
+      console.log(this.state.playlists)
     return (
       <div className="App">
         {this.state.user ? // ? = if true, run code, if else, run whatever's after :
@@ -165,20 +190,14 @@ class App extends Component {
             <h1 className="title">your playlists</h1>
           </div>
           <div style={{}}>
-            <Filter onTextChange={text => this.setState({filterString: text})}/>
             <PlaylistCounter playlists={playlistToRender}/>
+            <Filter onTextChange={text => this.setState({filterString: text})}/>
           </div>
           <div style={{display:"flex"}}>
-          <div style={{width:"450px", display:"inline-block"}}>
-            {playlistToRender.map(playlists =>
-            <div className="ply">
-            <Playlist playlist={playlists}/>
-            </div>)}
-          </div>
-          <div style={{display:"inline-block"}}>
+          <div style={{width:"200px", display:"inline-block"}}>
           {playlistToRender.map(playlists =>
             <div>
-              <Songs playlist={playlists}/>
+            <Playlist playlist={playlists}/>
             </div>)}
           </div>
           </div>

@@ -1,6 +1,7 @@
 .App {
   text-align: left;
   margin-left: 10%;
+  display: flex;
 
  
 }
@@ -14,36 +15,12 @@
 
 
 }
-.songsUI{
-  background-color: black;
-  width: 93%;
-  height: auto;
-  border-radius: 5px;
-  padding:5px;
-  margin-bottom: 10px;
-  margin-left: 0px;
-}
-.plName{
-  color: #fff;
-  text-align: left;
-  margin-left: 10px;
-  font-size: 40px;
-}
-.songList{
-  text-align: left;
-  color: #fff;
-  font-size: 20px;
-  margin-bottom: 10px;
-  list-style-type: none;
-}
 .ply{
-
   margin-bottom: 20px;
   margin-right: 20px;
   width: 185px;
   border-radius: 5px;
   display: inline-block;
-  font-size: 0px;
   background-color: black;
 }
 .playlist{
@@ -61,6 +38,12 @@
   width: 180px;
   border-radius: 5px; 
 }
+.imageCircle{
+  height: 400px;
+  width: 400px;
+  border-radius: 50%; 
+}
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 html, body {
   background-color: #404040;
@@ -75,6 +58,10 @@ html, body {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
 }
 
 .App-header {
