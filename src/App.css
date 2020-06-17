@@ -1,17 +1,21 @@
 .App {
   text-align: left;
-  margin-left: 10%;
+  
   display: flex;
 
  
 }
 .but{
-  background-color: black;
+  background-color: #404040;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
   font-size: 30px;
   color: #fff;
-  padding: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: white;
+  font-weight: bolder;
 
 
 }
@@ -30,8 +34,8 @@
 
 .center{
   text-align: center;
-  margin-right: 10%;
-  margin-top: 15%;
+  margin: auto;
+  
 }
 .image{
   height: 180px;
@@ -89,9 +93,9 @@ html, body {
 }
 .title{
   text-align: center;
-  margin-right: 10%;
   font-size: 60px;
-  color: #fff
+  color: #fff;
+  margin-top: 10%;
 }
 h2{
   font-size: 30px;
