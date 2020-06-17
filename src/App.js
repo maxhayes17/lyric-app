@@ -12,49 +12,12 @@ class Playlist extends Component {
     let playlist = this.props.playlist
 
     return (
-      <div style={{display: "flex"}}>
-        <div style={{display:"inline-block", paddingRight:"10px"}}>
+      <div>
           <input type="image" src={playlist.imageUrl} className="image" id="playlistButton" 
           onClick={()=> aSpin = "spin 0s linear infinite"}/>
           <h3>{playlist.name}</h3>
-          <div>
-              <button onClick={()=> this.setState({sliceMax: this.state.sliceMax + 1},
-              this.setState({sliceMin: this.state.sliceMin + 1}))}>Next Playlist</button>
-              <button onClick={()=> this.setState({sliceMax: this.state.sliceMax - 1},
-              this.setState({sliceMin: this.state.sliceMin - 1}))}>Last Playlist</button>
-              </div>
-          <div style={{textAlign: "center", marginTop: "80px"}}> 
-            <button style={{textAlign: "center", display:"block", 
-            marginLeft:"auto", marginRight:"auto", marginTop:"20px", 
-            backgroundColor: "#404040", color: "white", fontSize: "15px", 
-            borderRadius:"5px", padding:"10px", borderStyle:"solid", borderColor:"white"
-        }}
-
-
-        >Next Playlist <svg class="bi bi-skip-end-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M12 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-        <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-      </svg></button>
-            <button style={{textAlign: "center", display:"block", 
-            marginLeft:"auto", marginRight:"auto", marginTop:"20px", 
-            backgroundColor: "#404040", color:"white", fontSize:"15px",
-          borderRadius:"5px", padding:"10px", borderStyle:"solid", borderColor:"white"
-        }}
-
-
-          ><svg class="bi bi-skip-start-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M4.5 3.5A.5.5 0 0 0 4 4v8a.5.5 0 0 0 1 0V4a.5.5 0 0 0-.5-.5z"/>
-          <path d="M4.903 8.697l6.364 3.692c.54.313 1.232-.066 1.232-.697V4.308c0-.63-.692-1.01-1.232-.696L4.903 7.304a.802.802 0 0 0 0 1.393z"/>
-        </svg> Last Playlist</button>
-          </div>
         </div>
-        <div style={{display:"inline-block"}}>
-          <Songs playlist={this.props.playlist}/>
-        </div>
-        <div style={{display:"inline-block", marginLeft:"150px"}}>
-          <SpinningImage playlist={this.props.playlist}/>
-        </div>
-      </div>
+
     );
   }
 }
@@ -134,8 +97,8 @@ class App extends Component {
     serverData: {},
     filterString: "",
     speed: 4,
-    sliceMin: 0,
-    sliceMax: 1
+    sliceMin: 9,
+    sliceMax: 10
     }
   }
   componentDidMount() {
@@ -202,7 +165,6 @@ class App extends Component {
 
   }
   render() {
-    let sliceMax = this.state.sliceMax
     let playlistToRender = this.state.user && this.state.playlists ? 
     this.state.playlists.filter(playlist => {
       let matchesPlaylist = playlist.name.toLowerCase().includes(
@@ -230,9 +192,42 @@ class App extends Component {
           <div style={{width:"200px", display:"inline-block"}}>
           {playlistToRender.slice(this.state.sliceMin,this.state.sliceMax)
           .map(playlists =>
-            <div>
+        <div style={{display: "flex"}}>
+          <div style={{display:"inline-block", paddingRight:"10px"}}>
             <Playlist playlist={playlists}/>
-            </div>)}
+              <div style={{textAlign: "center", marginTop: "80px"}}> 
+                <button style={{textAlign: "center", display:"block", 
+                marginLeft:"auto", marginRight:"auto", marginTop:"20px", 
+                backgroundColor: "#404040", color: "white", fontSize: "15px", 
+                borderRadius:"5px", padding:"10px", borderStyle:"solid", borderColor:"white"
+                }} disabled={this.state.sliceMax == playlistToRender.length}
+                  onClick={()=> this.setState({sliceMax: this.state.sliceMax + 1},
+                  this.setState({sliceMin: this.state.sliceMin + 1}))}
+                >Next Playlist <svg class="bi bi-skip-end-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M12 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                </svg></button>
+
+                <button style={{textAlign: "center", display:"block", 
+                marginLeft:"auto", marginRight:"auto", marginTop:"20px", 
+                backgroundColor: "#404040", color:"white", fontSize:"15px",
+                borderRadius:"5px", padding:"10px", borderStyle:"solid", borderColor:"white"
+                 }} disabled={this.state.sliceMin == 0}
+                  onClick={()=> this.setState({sliceMax: this.state.sliceMax - 1},
+                  this.setState({sliceMin: this.state.sliceMin - 1}))}
+                ><svg class="bi bi-skip-start-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.5 3.5A.5.5 0 0 0 4 4v8a.5.5 0 0 0 1 0V4a.5.5 0 0 0-.5-.5z"/>
+                <path d="M4.903 8.697l6.364 3.692c.54.313 1.232-.066 1.232-.697V4.308c0-.63-.692-1.01-1.232-.696L4.903 7.304a.802.802 0 0 0 0 1.393z"/>
+                </svg> Last Playlist</button>
+                </div>
+          </div>
+        <div style={{display:"inline-block"}}>
+          <Songs playlist={playlists}/>
+        </div>
+        <div style={{display:"inline-block", marginLeft:"150px"}}>
+          <SpinningImage playlist={playlists}/>
+        </div>
+      </div>)}
 
           </div>
           </div>
