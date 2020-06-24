@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import queryString from 'query-string';
-import Button from 'react-bootstrap/Button';
-// 
-let aSpin = "spin 6s linear infinite"
+import { TwitterPicker } from 'react-color';
 
 class Playlist extends Component {
-  render() {
-    console.log(this.props.playlist)
+  render() { 
     let playlist = this.props.playlist
-
     return (
       <div>
-          <input type="image" src={playlist.imageUrl} className="image" id="playlistButton" 
-          onClick={()=> aSpin = "spin 0s linear infinite"}/>
+          <input type="image" src={playlist.imageUrl} className="image"/>
           <h3>{playlist.name}</h3>
         </div>
 
@@ -59,7 +53,8 @@ class SpinningImage extends Component {
     return (
       <div style={{borderRadius: "50%",
       animation: "spin 6s linear infinite"}}>
-        <div style={{backgroundColor: "#404040",borderRadius:"50%", height: "90px", width:"90px", 
+        <div style={{backgroundColor: "#404040",
+         borderRadius:"50%", height: "90px", width:"90px", 
         position: "absolute",
         margin: "-60px 0px 0px -60px",
         top: "50%", left: "50%",
@@ -97,8 +92,9 @@ class App extends Component {
     serverData: {},
     filterString: "",
     speed: 6,
-    sliceMin: 9,
-    sliceMax: 10
+    sliceMin: 0,
+    sliceMax: 1,
+    background: "#404040"
     }
   }
   componentDidMount() {
@@ -107,6 +103,7 @@ class App extends Component {
     if (!accessToken) {
       return;
     }
+    else {
           fetch('https://api.spotify.com/v1/me', {
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => response.json())
@@ -115,6 +112,7 @@ class App extends Component {
         name: data.display_name
       }
     }))
+
     fetch('https://api.spotify.com/v1/me/playlists', {
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => response.json())
@@ -146,9 +144,6 @@ class App extends Component {
   })
     .then(playlists => this.setState({
       playlists: playlists.map(item => {
-        console.log(playlists)
-        console.log(item.trackDatas)
-        console.log(item.uri)
         return {
           name: item.name,
           imageUrl: item.images[0].url, 
@@ -162,7 +157,7 @@ class App extends Component {
 
 
 
-
+  }
   }
   render() {
     let playlistToRender = this.state.user && this.state.playlists ? 
@@ -176,9 +171,8 @@ class App extends Component {
         return matchesPlaylist || matchesSong || matchesArtists
       }) 
       : []
-      console.log(this.state.playlists)
     return (
-      <div className="App" >
+      <div className="App" style={{backgroundColor: this.state.background}} >
         {this.state.user ? // ? = if true, run code, if else, run whatever's after :
         <div style={{marginLeft: "10%"}}> 
           <div style={{}}>
@@ -195,10 +189,10 @@ class App extends Component {
         <div style={{display: "flex"}}>
           <div style={{display:"inline-block", paddingRight:"10px"}}>
             <Playlist playlist={playlists}/>
-                <div style={{textAlign: "center", marginTop: "80px"}}> 
+                <div style={{textAlign: "center", marginTop: "50px"}}> 
                   <button style={{textAlign: "center", display:"block", 
                     marginLeft:"auto", marginRight:"auto", marginTop:"20px", 
-                    backgroundColor: "#404040", color: "white", fontSize: "15px", 
+                    backgroundColor: this.state.background, color: "white", fontSize: "15px", 
                     borderRadius:"5px", padding:"10px", borderStyle:"solid", borderColor:"white"
                     }} disabled={this.state.sliceMax == playlistToRender.length}
                       onClick={()=> this.setState({sliceMax: this.state.sliceMax + 1},
@@ -209,10 +203,9 @@ class App extends Component {
                     <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
                     </svg>
                   </button>
-
                   <button style={{textAlign: "center", display:"block", 
                     marginLeft:"auto", marginRight:"auto", marginTop:"20px", 
-                    backgroundColor: "#404040", color:"white", fontSize:"15px",
+                    backgroundColor: this.state.background, color:"white", fontSize:"15px",
                     borderRadius:"5px", padding:"10px", borderStyle:"solid", borderColor:"white"
                     }} disabled={this.state.sliceMin == 0}
                       onClick={()=> this.setState({sliceMax: this.state.sliceMax - 1},
@@ -228,7 +221,18 @@ class App extends Component {
           <Songs playlist={playlists}/>
         </div>
         <div style={{display:"inline-block", marginLeft:"150px"}}>
-          <SpinningImage playlist={playlists}/>
+          <SpinningImage playlist={playlists} background = {this.state.background}/>
+          <div style={{marginTop:"50px"}}>
+          <TwitterPicker
+                    style={{backgroundColor:"#404040"}}
+                    color={this.state.background}
+                    onChangeComplete= {(color) => {
+                      this.setState({ background: color.hex })}}
+                    width = "400px"
+                    colors = {['#404040',  '#000000', '#000033', '#003333', '#330033', '#330000']}
+                    triangle = "hide"
+                    />
+          </div>
         </div>
       </div>)}
 
