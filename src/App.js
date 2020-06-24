@@ -53,7 +53,7 @@ class SpinningImage extends Component {
     return (
       <div style={{borderRadius: "50%",
       animation: "spin 6s linear infinite"}}>
-        <div style={{backgroundColor: "#404040",
+        <div style={{backgroundColor: this.props.bk,
          borderRadius:"50%", height: "90px", width:"90px", 
         position: "absolute",
         margin: "-60px 0px 0px -60px",
@@ -221,7 +221,7 @@ class App extends Component {
           <Songs playlist={playlists}/>
         </div>
         <div style={{display:"inline-block", marginLeft:"150px"}}>
-          <SpinningImage playlist={playlists} background = {this.state.background}/>
+          <SpinningImage playlist={playlists} bk = {this.state.background}/>
           <div style={{marginTop:"50px"}}>
           <TwitterPicker
                     style={{backgroundColor:"#404040"}}
