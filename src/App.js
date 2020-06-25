@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import queryString from 'query-string';
 import { TwitterPicker } from 'react-color';
+import Alert from 'react-bootstrap/Alert';
 
 class Playlist extends Component {
   render() { 
@@ -52,7 +53,7 @@ class SpinningImage extends Component {
 
     return (
       <div style={{borderRadius: "50%",
-      animation: "spin 6s linear infinite"}}>
+      animation: "spin " + this.props.spd + "s linear infinite"}}>
         <div style={{backgroundColor: this.props.bk,
          borderRadius:"50%", height: "90px", width:"90px", 
         position: "absolute",
@@ -94,7 +95,7 @@ class App extends Component {
     speed: 6,
     sliceMin: 0,
     sliceMax: 1,
-    background: "#404040"
+    background: "#404040",
     }
   }
   componentDidMount() {
@@ -118,6 +119,11 @@ class App extends Component {
     }).then(response => response.json())
     .then(playlistData => {
       let playlists = playlistData.items
+      if (!playlists) {
+        window.location = window.location.href.includes('localhost') 
+      ? 'http://localhost:8888/login' 
+      : 'https://oauth-bridge-template.herokuapp.com/login' 
+    }
       let trackDataPromises = playlists.map(playlist => {
         let responsePromise = fetch(playlist.tracks.href, {
           headers: {'Authorization': 'Bearer ' + accessToken}
@@ -174,6 +180,7 @@ class App extends Component {
     return (
       <div className="App" style={{backgroundColor: this.state.background}} >
         {this.state.user ? // ? = if true, run code, if else, run whatever's after :
+
         <div style={{marginLeft: "10%"}}> 
           <div style={{}}>
             <h1 className="title">your playlists</h1>
@@ -221,7 +228,7 @@ class App extends Component {
           <Songs playlist={playlists}/>
         </div>
         <div style={{display:"inline-block", marginLeft:"150px"}}>
-          <SpinningImage playlist={playlists} bk = {this.state.background}/>
+          <SpinningImage playlist={playlists} bk = {this.state.background} spd = {this.state.speed}/>
           <div style={{marginTop:"50px"}}>
           <TwitterPicker
                     style={{backgroundColor:"#404040"}}
@@ -229,15 +236,16 @@ class App extends Component {
                     onChangeComplete= {(color) => {
                       this.setState({ background: color.hex })}}
                     width = "400px"
-                    colors = {['#404040',  '#000000', '#000033', '#003333', '#330033', '#330000']}
+                    colors = {['#404040',  '#000000', '#000020', '#003333', '#330033', '#330000']}
                     triangle = "hide"
                     />
           </div>
         </div>
       </div>)}
 
-          </div>
-          </div>
+        </div>
+        </div>  
+          
 
 
           
